@@ -1,19 +1,20 @@
 export const siteConfig = {
   name: "ណាំង សីហា",
-  role: "Software Engineer & គ្រូបង្រៀន",
+  role: "Senior Software Engineer & AI Specialist",
   description:
-    "គេហទំព័រផ្ទាល់ខ្លួន បង្ហាញការងារ និងវគ្គបណ្តុះបណ្តាល \"AI សម្រាប់គ្រូបង្រៀន\"",
+    "គេហទំព័រផ្ទាល់ខ្លួន បង្ហាញស្នាដៃវិស្វកម្មសូហ្វវែរ (Web, Mobile, Cloud) និងវគ្គបណ្តុះបណ្តាល \"AI សម្រាប់គ្រូបង្រៀន\"",
 
   navLinks: [
     { label: "ទំព័រដើម", href: "/" },
+    { label: "គម្រោងស្នាដៃ", href: "/#projects" },
     { label: "អំពីខ្ញុំ", href: "/about" },
     { label: "វគ្គបណ្តុះបណ្តាល", href: "/courses" },
     { label: "ទំនាក់ទំនង", href: "/contact" },
   ],
 
   cta: {
-    label: "ចុះឈ្មោះឥឡូវនេះ",
-    href: "/courses",
+    label: "ទាក់ទងសហការ",
+    href: "/contact",
   },
 
   contact: {
@@ -30,3 +31,4 @@ export const siteConfig = {
 };
 
 export type NavLink = (typeof siteConfig.navLinks)[number];
+

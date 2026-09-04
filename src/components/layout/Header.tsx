@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { GraduationCap, Menu, X } from "lucide-react";
+import { ArrowUpRight, Code2, Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
+import { ShimmerButton } from "@/components/motion/ShimmerButton";
 
 export function Header() {
   const pathname = usePathname();
@@ -19,110 +20,135 @@ export function Header() {
   }
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full border-b transition-colors ${
-        isScrolled
-          ? "border-border bg-surface/90 backdrop-blur-md"
-          : "border-transparent bg-surface/60 backdrop-blur-sm"
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+    <header className="sticky top-0 z-50 w-full px-4 pt-3 pb-2 transition-all duration-300 sm:px-6">
+      <div
+        className={`mx-auto flex max-w-5xl items-center justify-between rounded-full border px-4 py-2.5 transition-all duration-300 sm:px-6 ${
+          isScrolled
+            ? "border-black/10 bg-surface-glass shadow-lg shadow-black/5 backdrop-blur-xl"
+            : "border-black/5 bg-surface-glass/80 backdrop-blur-md"
+        }`}
+      >
+        {/* Brand Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg text-foreground"
-          style={{ fontFamily: "var(--font-heading)" }}
+          className="group flex items-center gap-2.5 text-base font-bold text-foreground transition-transform hover:scale-[1.02]"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <GraduationCap size={18} />
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs shadow-primary/25 transition-transform duration-300 group-hover:rotate-6">
+            <Code2 size={16} />
           </span>
-          {siteConfig.name}
+          <span className="tracking-tight text-foreground font-semibold">
+            {siteConfig.name}
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-1 md:flex">
           {siteConfig.navLinks.map((link) => {
             const active =
               link.href === "/"
                 ? pathname === "/"
+                : link.href.startsWith("/#")
+                ? false
                 : pathname.startsWith(link.href);
+
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm transition-colors hover:text-primary ${
-                  active ? "font-semibold text-primary" : "text-foreground/80"
+                className={`relative rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
+                  active
+                    ? "text-primary"
+                    : "text-foreground/75 hover:text-foreground hover:bg-black/5"
                 }`}
               >
-                {link.label}
+                {active && (
+                  <motion.span
+                    layoutId="activeNavTab"
+                    className="absolute inset-0 rounded-full bg-primary-soft/80"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden md:block">
-          <Link
-            href={siteConfig.cta.href}
-            className="inline-flex items-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
-          >
-            {siteConfig.cta.label}
-          </Link>
+        {/* CTA Button */}
+        <div className="hidden md:flex md:items-center md:gap-3">
+          <ShimmerButton href={siteConfig.cta.href} variant="primary" className="!py-2 !px-4 !text-xs">
+            <span>{siteConfig.cta.label}</span>
+            <ArrowUpRight size={13} />
+          </ShimmerButton>
         </div>
 
+        {/* Mobile Hamburger Toggle */}
         <button
           type="button"
           aria-label={isOpen ? "បិទម៉ឺនុយ" : "បើកម៉ឺនុយ"}
           onClick={() => setIsOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground md:hidden"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors hover:bg-surface-subtle md:hidden"
         >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
+          {isOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isOpen && (
-          <motion.nav
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border bg-surface md:hidden"
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="mx-auto mt-2 max-w-5xl overflow-hidden rounded-3xl border border-black/10 bg-surface/95 p-5 shadow-2xl shadow-black/10 backdrop-blur-2xl md:hidden"
           >
-            <div className="flex flex-col gap-1 px-6 py-4">
+            <div className="flex flex-col gap-1.5">
               {siteConfig.navLinks.map((link) => {
                 const active =
                   link.href === "/"
                     ? pathname === "/"
+                    : link.href.startsWith("/#")
+                    ? false
                     : pathname.startsWith(link.href);
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-3 py-2.5 text-base transition-colors ${
+                    onClick={() => setIsOpen(false)}
+                    className={`rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
                       active
-                        ? "bg-primary-soft font-semibold text-primary"
-                        : "text-foreground/80 hover:bg-primary-soft/60"
+                        ? "bg-primary-soft text-primary font-semibold"
+                        : "text-foreground/80 hover:bg-black/5"
                     }`}
                   >
                     {link.label}
                   </Link>
                 );
               })}
-              <Link
-                href={siteConfig.cta.href}
-                className="mt-3 inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground"
-              >
-                {siteConfig.cta.label}
-              </Link>
+              <div className="pt-2">
+                <ShimmerButton
+                  href={siteConfig.cta.href}
+                  variant="primary"
+                  className="w-full !py-3 !text-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span>{siteConfig.cta.label}</span>
+                  <ArrowUpRight size={16} />
+                </ShimmerButton>
+              </div>
             </div>
-          </motion.nav>
+          </motion.div>
         )}
       </AnimatePresence>
     </header>
   );
 }
+

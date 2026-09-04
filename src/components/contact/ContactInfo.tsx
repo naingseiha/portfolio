@@ -1,5 +1,6 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Share2 } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { GlowCard } from "@/components/motion/GlowCard";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/icons/social-icons";
 
 const socialLinks = [
@@ -10,63 +11,78 @@ const socialLinks = [
 
 export function ContactInfo() {
   return (
-    <div className="flex flex-col gap-3">
-      <a
-        href={`mailto:${siteConfig.contact.email}`}
-        className="flex items-center gap-4 rounded-2xl bg-surface p-4 transition-colors hover:bg-primary-soft/40"
-      >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
-          <Mail size={18} />
-        </span>
-        <span>
-          <span className="block text-xs text-muted">អ៊ីមែល</span>
-          <span className="text-sm font-medium text-foreground">
-            {siteConfig.contact.email}
+    <div className="flex flex-col gap-4">
+      <GlowCard className="p-5">
+        <a
+          href={`mailto:${siteConfig.contact.email}`}
+          className="flex items-center gap-4 transition-colors group"
+        >
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary shadow-xs transition-transform group-hover:scale-105">
+            <Mail size={20} />
           </span>
-        </span>
-      </a>
+          <div>
+            <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted">អ៊ីមែលផ្លូវការ</span>
+            <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+              {siteConfig.contact.email}
+            </span>
+          </div>
+        </a>
+      </GlowCard>
 
-      <a
-        href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-        className="flex items-center gap-4 rounded-2xl bg-surface p-4 transition-colors hover:bg-primary-soft/40"
-      >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
-          <Phone size={18} />
-        </span>
-        <span>
-          <span className="block text-xs text-muted">លេខទូរស័ព្ទ</span>
-          <span className="text-sm font-medium text-foreground">
-            {siteConfig.contact.phone}
+      <GlowCard className="p-5">
+        <a
+          href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
+          className="flex items-center gap-4 transition-colors group"
+        >
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary shadow-xs transition-transform group-hover:scale-105">
+            <Phone size={20} />
           </span>
-        </span>
-      </a>
+          <div>
+            <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted">លេខទូរស័ព្ទ / WhatsApp</span>
+            <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+              {siteConfig.contact.phone}
+            </span>
+          </div>
+        </a>
+      </GlowCard>
 
-      <div className="flex items-center gap-4 rounded-2xl bg-surface p-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
-          <MapPin size={18} />
-        </span>
-        <span>
-          <span className="block text-xs text-muted">ទីតាំង</span>
-          <span className="text-sm font-medium text-foreground">
-            {siteConfig.contact.location}
+      <GlowCard className="p-5">
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary shadow-xs">
+            <MapPin size={20} />
           </span>
-        </span>
-      </div>
+          <div>
+            <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted">ទីតាំងបច្ចុប្បន្ន</span>
+            <span className="text-sm font-bold text-foreground">
+              {siteConfig.contact.location}
+            </span>
+          </div>
+        </div>
+      </GlowCard>
 
-      <div className="mt-2 flex items-center gap-3">
-        {socialLinks.map(({ label, href, Icon }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-surface text-foreground/70 transition-colors hover:bg-primary-soft hover:text-primary"
-          >
-            <Icon className="h-4.5 w-4.5" />
-          </a>
-        ))}
-      </div>
+      <GlowCard className="p-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
+            <Share2 size={14} className="text-primary" />
+            <span>បណ្តាញសង្គម &amp; Code</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {socialLinks.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/5 bg-surface text-foreground/70 transition-all hover:border-primary/40 hover:bg-primary-soft hover:text-primary"
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </GlowCard>
     </div>
   );
 }
+

@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 const koulen = Koulen({
-  subsets: ["khmer", "latin"],
+  subsets: ["khmer"],
   weight: "400",
   variable: "--font-koulen",
   display: "swap",
@@ -19,7 +19,7 @@ const kantumruyPro = Kantumruy_Pro({
 });
 
 const metal = Metal({
-  subsets: ["khmer", "latin"],
+  subsets: ["khmer"],
   weight: "400",
   variable: "--font-metal",
   display: "swap",
@@ -32,18 +32,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "គេហទំព័រផ្ទាល់ខ្លួន | AI សម្រាប់គ្រូបង្រៀន",
+  title: "ណាំង សីហា | Senior Software Engineer & AI Specialist",
   description:
-    "គេហទំព័រផ្ទាល់ខ្លួន បង្ហាញការងារ និងវគ្គបណ្តុះបណ្តាល \"AI សម្រាប់គ្រូបង្រៀន\"",
+    "វិស្វករសូហ្វវែរ Full-Stack (Web & Mobile), Cloud Architecture និងគ្រូបណ្តុះបណ្តាល AI សម្រាប់គ្រូបង្រៀនកម្ពុជា។",
+  keywords: [
+    "Software Engineer",
+    "Full-Stack Developer",
+    "Next.js",
+    "React Native",
+    "AI Educator",
+    "Cambodia Developer",
+    "ណាំង សីហា",
+  ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="km"
-      className={`${koulen.variable} ${kantumruyPro.variable} ${metal.variable} ${inter.variable} h-full antialiased`}
+      className={`${koulen.variable} ${kantumruyPro.variable} ${metal.variable} ${inter.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-background text-foreground selection:bg-primary/10 selection:text-primary">
         <Header />
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
@@ -51,3 +60,4 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }
+
