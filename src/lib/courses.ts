@@ -1,9 +1,11 @@
 export interface Chapter {
+  slug: string;
   title: string;
   hours: number;
   lectures: number;
   summary: string;
   activities: string[];
+  hasFullLesson?: boolean;
 }
 
 export interface Review {
@@ -98,6 +100,7 @@ export const allCourses: Course[] = [
     ],
     curriculum: [
       {
+        slug: "ai-prompt-engineering-basics",
         title: "ជំពូកទី ១៖ មូលដ្ឋានគ្រឹះ AI និង Prompt Engineering",
         hours: 4,
         lectures: 3,
@@ -108,8 +111,10 @@ export const allCourses: Course[] = [
           "អនុវត្តសរសេរ Prompt តាមរូបមន្ត Role-Context-Task-Constraint",
           "លំហាត់ប្រៀបធៀបគុណភាពលទ្ធផលរវាង Prompt សាមញ្ញ និង Prompt វិជ្ជាជីវៈ",
         ],
+        hasFullLesson: true,
       },
       {
+        slug: "lesson-plans-and-reports",
         title: "ជំពូកទី ២៖ ការរៀបចំកិច្ចតែងការ និងរបាយការណ៍បង្រៀន",
         hours: 5,
         lectures: 4,
@@ -122,6 +127,7 @@ export const allCourses: Course[] = [
         ],
       },
       {
+        slug: "slides-with-gemini",
         title: "ជំពូកទី ៣៖ បង្កើតស្លាយមេរៀនដោយ Gemini + Google Slides",
         hours: 5,
         lectures: 3,
@@ -134,6 +140,7 @@ export const allCourses: Course[] = [
         ],
       },
       {
+        slug: "quizzes-and-gemini-gems",
         title: "ជំពូកទី ៤៖ វិញ្ញាសា/លំហាត់ និង Gemini Gems ផ្ទាល់ខ្លួន",
         hours: 4,
         lectures: 3,
@@ -146,6 +153,7 @@ export const allCourses: Course[] = [
         ],
       },
       {
+        slug: "video-and-audio-production",
         title: "ជំពូកទី ៥៖ ការផលិតវីដេអូអប់រំ និងសំឡេងដោយ AI",
         hours: 4,
         lectures: 3,
@@ -158,6 +166,7 @@ export const allCourses: Course[] = [
         ],
       },
       {
+        slug: "intro-to-vibe-coding",
         title: "ជំពូកទី ៦៖ សេចក្តីផ្តើម Vibe Coding & Google Antigravity",
         hours: 4,
         lectures: 3,
@@ -170,6 +179,7 @@ export const allCourses: Course[] = [
         ],
       },
       {
+        slug: "building-a-teaching-app",
         title: "ជំពូកទី ៧៖ បង្កើត App ជំនួយការបង្រៀនជាក់ស្តែង",
         hours: 5,
         lectures: 4,
@@ -182,6 +192,7 @@ export const allCourses: Course[] = [
         ],
       },
       {
+        slug: "final-presentation",
         title: "ជំពូកទី ៨៖ បទបង្ហាញគម្រោង និងវាយតម្លៃចុងក្រោយ",
         hours: 1,
         lectures: 1,
@@ -275,6 +286,7 @@ export const allCourses: Course[] = [
     ],
     curriculum: [
       {
+        slug: "nextjs16-edge-rsc-architecture",
         title: "ជំពូកទី ១៖ ស្ថាបត្យកម្ម Next.js 16 Edge & React 19 RSC",
         hours: 4,
         lectures: 4,
@@ -282,6 +294,7 @@ export const allCourses: Course[] = [
         activities: ["Setup Turbopack", "វិភាគ Rendering Performance", "បំបាត់ Client Bundles ដែលមិនចាំបាច់"],
       },
       {
+        slug: "routing-layouts-server-actions",
         title: "ជំពូកទី ២៖ Routing, Layouts & Server Actions",
         hours: 5,
         lectures: 4,
@@ -289,6 +302,7 @@ export const allCourses: Course[] = [
         activities: ["អនុវត្ត Server Actions ជាមួយ Zod validation", "បង្កើត Optimistic UI Updates"],
       },
       {
+        slug: "database-integration-redis-caching",
         title: "ជំពូកទី ៣៖ Database Integration & Redis Caching",
         hours: 5,
         lectures: 4,
@@ -353,6 +367,7 @@ export const allCourses: Course[] = [
     ],
     curriculum: [
       {
+        slug: "expo-sdk-mobile-navigation",
         title: "ជំពូកទី ១៖ មូលដ្ឋាន Expo SDK និង Mobile Navigation",
         hours: 4,
         lectures: 4,
@@ -360,6 +375,7 @@ export const allCourses: Course[] = [
         activities: ["Setup Expo Project", "បង្កើត Responsive Navigation Stack"],
       },
       {
+        slug: "native-animations-60fps",
         title: "ជំពូកទី ២៖ Native Animations 60 FPS",
         hours: 5,
         lectures: 4,
@@ -421,6 +437,7 @@ export const allCourses: Course[] = [
     ],
     curriculum: [
       {
+        slug: "what-is-vibe-coding",
         title: "ជំពូកទី ១៖ អ្វីទៅជា Vibe Coding?",
         hours: 3,
         lectures: 3,
@@ -428,6 +445,7 @@ export const allCourses: Course[] = [
         activities: ["Setup Development Environment", "អនុវត្ត First Vibe Prompt"],
       },
       {
+        slug: "multi-agent-coding-workflows",
         title: "ជំពូកទី ២៖ Multi-Agent Coding Workflows",
         hours: 5,
         lectures: 4,
@@ -464,6 +482,17 @@ export const portfolioOutcomes = featuredCourse.portfolioOutcomes;
 
 export function getCourseBySlug(slug: string): Course | undefined {
   return allCourses.find((c) => c.slug === slug);
+}
+
+export function getChapterBySlug(
+  courseSlug: string,
+  chapterSlug: string,
+): { course: Course; chapter: Chapter; index: number } | undefined {
+  const course = getCourseBySlug(courseSlug);
+  if (!course) return undefined;
+  const index = course.curriculum.findIndex((c) => c.slug === chapterSlug);
+  if (index === -1) return undefined;
+  return { course, chapter: course.curriculum[index], index };
 }
 
 export const googleFormEmbedUrl: string | null =

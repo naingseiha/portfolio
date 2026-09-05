@@ -1,16 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, ChevronDown, Clock, PlayCircle } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, BookOpen, ChevronDown, Clock, PlayCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Chapter, curriculum as defaultCurriculum } from "@/lib/courses";
 
 interface CurriculumProps {
   chapters?: Chapter[];
+  courseSlug?: string;
 }
 
-export function Curriculum({ chapters = defaultCurriculum }: CurriculumProps) {
+export function Curriculum({ chapters = defaultCurriculum, courseSlug = "ai-for-teachers" }: CurriculumProps) {
   const [openIndices, setOpenIndices] = useState<number[]>([0]);
 
   if (!chapters || chapters.length === 0) return null;
@@ -34,7 +36,7 @@ export function Curriculum({ chapters = defaultCurriculum }: CurriculumProps) {
   };
 
   return (
-    <section className="py-10">
+    <section id="curriculum" className="py-10 scroll-mt-24">
       <FadeIn className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-black/8 bg-surface-glass px-3.5 py-1 text-xs font-semibold text-foreground-secondary backdrop-blur-md">
@@ -129,6 +131,16 @@ export function Curriculum({ chapters = defaultCurriculum }: CurriculumProps) {
                           ))}
                         </ul>
                       </div>
+                    )}
+
+                    {chapter.hasFullLesson && (
+                      <Link
+                        href={`/courses/${courseSlug}/chapters/${chapter.slug}`}
+                        className="mt-4 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-primary transition-colors hover:text-primary-hover"
+                      >
+                        <span>មើលមេរៀនពេញលេញ</span>
+                        <ArrowRight size={14} />
+                      </Link>
                     )}
                   </motion.div>
                 )}

@@ -50,7 +50,7 @@ export default async function CourseDetailPage({
           {/* Left Column: Learning Content, Curriculum, Prerequisites, AI Tools, Instructor, Reviews, Enrollment */}
           <div className="flex flex-col gap-2 min-w-0">
             <LearningOutcomes outcomes={course.learningOutcomes} />
-            <Curriculum chapters={course.curriculum} />
+            <Curriculum chapters={course.curriculum} courseSlug={course.slug} />
             <Prerequisites prerequisites={course.prerequisites} />
             {course.aiTools && course.aiTools.length > 0 && (
               <AiTools aiTools={course.aiTools} />
