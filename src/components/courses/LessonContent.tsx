@@ -1,11 +1,22 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
+// Source content authors LaTeX with \( \) and \[ \] delimiters; remark-math only
+// recognizes $ and $$, so convert before the markdown parser ever sees the string.
+function normalizeLatexDelimiters(markdown: string): string {
+  return markdown
+    .replace(/\\\[([\s\S]*?)\\\]/g, (_, expr: string) => `$$${expr}$$`)
+    .replace(/\\\(([\s\S]*?)\\\)/g, (_, expr: string) => `$${expr}$`);
+}
 
 export function LessonContent({ markdown }: { markdown: string }) {
   return (
     <div className="lesson-content">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
         components={{
           h1: ({ children }) => (
             <h1 className="mt-12 mb-4 pb-3 border-b border-black/10 dark:border-white/10 font-display text-xl sm:text-2xl font-bold tracking-wide text-foreground first:mt-0">
@@ -21,6 +32,16 @@ export function LessonContent({ markdown }: { markdown: string }) {
             <h3 className="mt-6 mb-2 font-heading text-base sm:text-lg font-bold text-foreground">
               {children}
             </h3>
+          ),
+          h4: ({ children }) => (
+            <h4 className="mt-5 mb-2 font-heading text-sm sm:text-base font-bold text-foreground">
+              {children}
+            </h4>
+          ),
+          h5: ({ children }) => (
+            <h5 className="mt-4 mb-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+              {children}
+            </h5>
           ),
           p: ({ children }) => (
             <p className="mb-4 text-sm sm:text-base leading-relaxed text-foreground-secondary">
@@ -84,7 +105,7 @@ export function LessonContent({ markdown }: { markdown: string }) {
           ),
         }}
       >
-        {markdown}
+        {normalizeLatexDelimiters(markdown)}
       </ReactMarkdown>
     </div>
   );

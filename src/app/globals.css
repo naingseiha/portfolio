@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 :root {
   /* Apple Light Neutral & Titanium Canvas */
@@ -144,6 +145,18 @@ h4 {
   );
   background-size: 200% 100%;
   animation: shimmer 3s infinite;
+}
+
+/* KaTeX math should inherit the surrounding text color */
+.katex {
+  color: inherit;
+  font-size: 1em;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
 }
 
 /* Custom Scrollbar for Code Mockups */

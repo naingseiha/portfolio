@@ -125,6 +125,7 @@ export const allCourses: Course[] = [
           "អនុវត្តរៀបចំកិច្ចតែងការសម្រាប់មុខវិជ្ជាផ្ទាល់ខ្លួន",
           "កែសម្រួល និងបង្កើនគុណភាពរបាយការណ៍ដោយ AI",
         ],
+        hasFullLesson: true,
       },
       {
         slug: "slides-with-gemini",
