@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, ChevronDown, Clock } from "lucide-react";
+import { BookOpen, ChevronDown, Clock, Play } from "lucide-react";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { GlowCard } from "@/components/motion/GlowCard";
 import { LessonContent } from "@/components/courses/LessonContent";
+import { LessonVisual } from "@/components/courses/LessonVisuals";
 import type { LessonSection } from "@/lib/lessons";
 
 interface LessonAccordionProps {
@@ -13,7 +14,7 @@ interface LessonAccordionProps {
 }
 
 export function LessonAccordion({ sections }: LessonAccordionProps) {
-  const [openIds, setOpenIds] = useState<string[]>(sections[0] ? [sections[0].id] : []);
+  const [openIds, setOpenIds] = useState<string[]>(sections.map((section) => section.id));
 
   if (!sections || sections.length === 0) return null;
 
@@ -28,10 +29,11 @@ export function LessonAccordion({ sections }: LessonAccordionProps) {
   };
 
   return (
-    <div>
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <p className="text-xs sm:text-sm text-muted">
-          {sections.length} ផ្នែក · ចុចលើផ្នែកណាមួយដើម្បីមើលលម្អិត
+    <div className="min-w-0">
+      <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-black/[0.06] bg-surface px-4 py-3 shadow-sm dark:border-white/[0.08]">
+        <p className="flex items-center gap-2 text-xs sm:text-sm text-muted">
+          <Play size={13} className="fill-primary text-primary" />
+          {sections.length} ផ្នែក · បានបើកសម្រាប់អានជាបន្តបន្ទាប់
         </p>
         <button
           type="button"
@@ -42,18 +44,18 @@ export function LessonAccordion({ sections }: LessonAccordionProps) {
         </button>
       </div>
 
-      <div className="flex flex-col gap-3.5">
+      <div className="flex flex-col gap-6">
         {sections.map((section, i) => {
           const isOpen = openIds.includes(section.id);
           return (
             <FadeIn key={section.id} delay={Math.min(i * 0.04, 0.2)}>
-              <GlowCard>
+              <GlowCard className="overflow-hidden rounded-[28px]">
                 <div id={section.id} className="scroll-mt-24">
                   <button
                     type="button"
                     onClick={() => toggleSection(section.id)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center gap-3.5 sm:gap-4 p-4 sm:p-5 text-left"
+                    className="flex w-full items-center gap-3.5 bg-gradient-to-r from-primary/[0.06] to-transparent p-4 text-left sm:gap-4 sm:p-6"
                   >
                     <span className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 font-mono text-xs sm:text-sm font-bold text-primary">
                       {section.number ?? <BookOpen size={16} />}
@@ -88,7 +90,8 @@ export function LessonAccordion({ sections }: LessonAccordionProps) {
                         transition={{ duration: 0.25, ease: "easeInOut" }}
                         className="overflow-hidden border-t border-black/5 dark:border-white/5"
                       >
-                        <div className="px-4 pb-5 pt-4 sm:px-8 sm:pb-6">
+                        <div className="px-4 pb-7 pt-5 sm:px-8 sm:pb-9 sm:pt-7">
+                          <LessonVisual sectionId={section.id} />
                           <LessonContent markdown={section.body} />
                         </div>
                       </motion.div>

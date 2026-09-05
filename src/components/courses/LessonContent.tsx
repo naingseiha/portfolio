@@ -1,7 +1,9 @@
+import { Children, isValidElement, type ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { PromptCard } from "@/components/courses/PromptCard";
 
 // Source content authors LaTeX with \( \) and \[ \] delimiters; remark-math only
 // recognizes $ and $$, so convert before the markdown parser ever sees the string.
@@ -9,6 +11,31 @@ function normalizeLatexDelimiters(markdown: string): string {
   return markdown
     .replace(/\\\[([\s\S]*?)\\\]/g, (_, expr: string) => `$$${expr}$$`)
     .replace(/\\\(([\s\S]*?)\\\)/g, (_, expr: string) => `$${expr}$`);
+}
+
+function nodeText(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(nodeText).join("");
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    if (node.type === "br") return "\n";
+
+    const content = nodeText(node.props.children);
+    if (node.type === "li") return `- ${content.trim()}\n`;
+    if (["p", "h1", "h2", "h3", "h4", "h5", "h6"].includes(String(node.type))) {
+      return `${content.trim()}\n\n`;
+    }
+    return content;
+  }
+  return Children.toArray(node).map(nodeText).join("");
+}
+
+function normalizePromptText(text: string): string {
+  return text
+    .replace(/^PROMPT-COPY:\s*/, "")
+    .replace(/\r\n?/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 export function LessonContent({ markdown }: { markdown: string }) {
@@ -62,11 +89,17 @@ export function LessonContent({ markdown }: { markdown: string }) {
           li: ({ children, className }) => (
             <li className={`leading-relaxed ${className ?? "list-disc"}`}>{children}</li>
           ),
-          blockquote: ({ children }) => (
-            <blockquote className="my-4 rounded-r-2xl border-l-4 border-primary/40 bg-primary-soft/60 px-4 py-3 text-sm sm:text-base leading-relaxed text-foreground">
-              {children}
-            </blockquote>
-          ),
+          blockquote: ({ children }) => {
+            const text = nodeText(children).trim();
+            if (text.startsWith("PROMPT-COPY:")) {
+              return <PromptCard prompt={normalizePromptText(text)} />;
+            }
+            return (
+              <blockquote className="my-5 rounded-r-2xl border-l-4 border-primary/40 bg-primary-soft/60 px-4 py-3 text-sm sm:text-base leading-relaxed text-foreground">
+                {children}
+              </blockquote>
+            );
+          },
           hr: () => <hr className="my-8 border-black/10 dark:border-white/10" />,
           a: ({ children, href }) => (
             <a

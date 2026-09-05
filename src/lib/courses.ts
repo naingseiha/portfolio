@@ -102,8 +102,8 @@ export const allCourses: Course[] = [
       {
         slug: "ai-prompt-engineering-basics",
         title: "ជំពូកទី ១៖ មូលដ្ឋានគ្រឹះ AI និង Prompt Engineering",
-        hours: 4,
-        lectures: 3,
+        hours: 5,
+        lectures: 6,
         summary:
           "ស្វែងយល់ពីគោលគំនិត AI, Generative AI, LLM និងបច្ចេកទេសសរសេរ Prompt ឲ្យមានប្រសិទ្ធភាពខ្ពស់។",
         activities: [
@@ -114,10 +114,24 @@ export const allCourses: Course[] = [
         hasFullLesson: true,
       },
       {
-        slug: "lesson-plans-and-reports",
-        title: "ជំពូកទី ២៖ ការរៀបចំកិច្ចតែងការ និងរបាយការណ៍បង្រៀន",
+        slug: "slides-with-gemini",
+        title: "ជំពូកទី ២៖ បង្កើតស្លាយមេរៀនដោយ Gemini + Google Slides",
         hours: 5,
         lectures: 4,
+        summary:
+          "ប្រើប្រាស់ Gemini រួមជាមួយ Google Slides ដើម្បីបង្កើតស្លាយមេរៀនទំនើប ដោយអនុវត្ត Workflow ២ជំហាន និងគោលការណ៍រចនាបែបវិជ្ជាជីវៈសម្រាប់ស្លាយភាសាខ្មែរ។",
+        activities: [
+          "អនុវត្ត Workflow ២ជំហាន៖ រៀបចំគំនិតជាមួយ Claude/Kimi មុន រួចផលិតស្លាយជាមួយ Gemini",
+          "អនុវត្តក្បួន ៦x៦ ច្បាប់ពណ៌ ៦០-៣០-១០ និងដោះស្រាយបញ្ហាដាច់ពាក្យខ្មែរ",
+          "ផលិតស្លាយមេរៀនពិតប្រាកដ ១ សំណុំ (១០-១៥ ស្លាយ) និងវាយតម្លៃគ្នាទៅវិញទៅមក",
+        ],
+        hasFullLesson: true,
+      },
+      {
+        slug: "lesson-plans-and-reports",
+        title: "ជំពូកទី ៣៖ ការរៀបចំកិច្ចតែងការ និងរបាយការណ៍បង្រៀន",
+        hours: 5,
+        lectures: 3,
         summary:
           "ប្រើ AI ជួយរៀបចំកិច្ចតែងការបង្រៀន និងរបាយការណ៍ការងារឲ្យលឿន ត្រឹមត្រូវ និងទាក់ទាញ។",
         activities: [
@@ -126,19 +140,6 @@ export const allCourses: Course[] = [
           "កែសម្រួល និងបង្កើនគុណភាពរបាយការណ៍ដោយ AI",
         ],
         hasFullLesson: true,
-      },
-      {
-        slug: "slides-with-gemini",
-        title: "ជំពូកទី ៣៖ បង្កើតស្លាយមេរៀនដោយ Gemini + Google Slides",
-        hours: 5,
-        lectures: 3,
-        summary:
-          "ប្រើប្រាស់ Gemini រួមជាមួយ Google Slides ដើម្បីបង្កើតស្លាយមេរៀនទំនើប មានអន្តរកម្ម និងរូបភាពស្អាត។",
-        activities: [
-          "បង្កើតគំរោងមាតិកាស្លាយពី Prompt តែមួយ",
-          "រចនា Layout និងបន្ថែមរូបភាព/គំនូសតាងដោយ AI",
-          "ចែករំលែក និង Export ស្លាយសម្រាប់ប្រើក្នុងថ្នាក់ជាក់ស្តែង",
-        ],
       },
       {
         slug: "quizzes-and-gemini-gems",
