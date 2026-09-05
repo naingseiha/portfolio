@@ -5,8 +5,9 @@ import { ArrowLeft, ArrowRight, BookOpen, Clock, PlayCircle } from "lucide-react
 import { FadeIn } from "@/components/motion/FadeIn";
 import { ShimmerButton } from "@/components/motion/ShimmerButton";
 import { LessonContent } from "@/components/courses/LessonContent";
+import { LessonAccordion } from "@/components/courses/LessonAccordion";
 import { allCourses, getChapterBySlug } from "@/lib/courses";
-import { getLessonMarkdown } from "@/lib/lessons";
+import { getLessonMarkdown, parseLessonSections } from "@/lib/lessons";
 
 export function generateStaticParams() {
   return allCourses.flatMap((course) =>
@@ -42,6 +43,8 @@ export default async function ChapterLessonPage({
   const { course, chapter, index } = found;
   const markdown = getLessonMarkdown(course.slug, chapter.slug);
   if (!markdown) notFound();
+
+  const { intro, sections } = parseLessonSections(markdown);
 
   const prevChapter = index > 0 ? course.curriculum[index - 1] : null;
   const nextChapter = index < course.curriculum.length - 1 ? course.curriculum[index + 1] : null;
@@ -91,9 +94,13 @@ export default async function ChapterLessonPage({
 
       {/* Lesson Body */}
       <main className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-12">
-        <FadeIn>
-          <LessonContent markdown={markdown} />
-        </FadeIn>
+        {intro && (
+          <FadeIn className="mb-8">
+            <LessonContent markdown={intro} />
+          </FadeIn>
+        )}
+
+        <LessonAccordion sections={sections} />
 
         {/* Prev / Next Navigation */}
         <nav className="mt-12 grid gap-3 sm:grid-cols-2">
